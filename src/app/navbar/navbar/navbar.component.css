@@ -1,0 +1,71 @@
+/* Nowy, grafitowy gradient tła dla navbar */
+.navbar {
+  width: 100%; /* Always span the full width */
+  max-width: 100vw; /* Prevent overflow issues */
+  position: sticky; /* Keep it at the top during scroll */
+  top: 0; /* Ensure it starts at the top */
+  z-index: 10;
+  background: linear-gradient(135deg, #333, #555); /* Ciemny grafit przechodzący w jaśniejszy */
+  border-bottom: 2px solid #444; /* Delikatna linia oddzielająca navbar */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Wyraźniejszy cień */
+}
+
+/* Logo z delikatną zmianą koloru */
+.navbar-brand {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f1f1f1; /* Jasna barwa, aby wyróżniało się na tle */
+  letter-spacing: 1px;
+  transition: color 0.3s ease; /* Płynna zmiana koloru logo */
+}
+
+.navbar-brand:hover {
+  color: #ff9f00; /* Subtelny akcent w kolorze pomarańczowym przy najechaniu */
+}
+
+/* Linki w navbar - bardziej eleganckie i z lekkim efektem */
+.navbar-nav .nav-link {
+  color: #f1f1f1; /* Jasny kolor tekstu */
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-transform: uppercase; /* Stonowane, ale profesjonalne */
+  margin-right: 20px; /* Odstępy między kategoriami */
+  padding: 8px 15px;
+  transition: all 0.3s ease; /* Płynna animacja */
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ff9f00; /* Zmiana koloru przy najechaniu na link */
+  border-bottom: 2px solid #ff9f00; /* Subtelne podkreślenie linku */
+}
+
+/* Przycisk kontaktu - z akcentem graficznym */
+.navbar-nav .btn-outline-dark {
+  border-color: #ff9f00;
+  color: #ff9f00;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.navbar-nav .btn-outline-dark:hover {
+  background-color: #ff9f00; /* Zmiana tła przy najechaniu */
+  color: #fff; /* Jasny tekst na ciemnym tle */
+}
+
+/* Dostosowanie do wersji mobilnej, by navbar był responsywny */
+@media (max-width: 991px) {
+  .navbar-collapse {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    width: 100%;
+  }
+}
+
+/* Odpowiednia przestrzeń po prawej stronie dla navbar */
+.navbar-nav {
+  margin-left: auto;
+}
