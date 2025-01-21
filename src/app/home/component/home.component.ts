@@ -9,4 +9,5 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   text: string = 'jazdaaaa';
+  gitpush: string = 'test';
 }
