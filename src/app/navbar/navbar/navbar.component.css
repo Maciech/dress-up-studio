@@ -32,6 +32,7 @@
   margin-right: 20px; /* Odstępy między kategoriami */
   padding: 8px 15px;
   transition: all 0.3s ease; /* Płynna animacja */
+  border-bottom: 2px solid transparent;
 }
 
 .navbar-nav .nav-link:hover {
