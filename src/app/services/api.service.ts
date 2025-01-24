@@ -1,14 +1,13 @@
-// src/app/services/dress.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Dress } from '../model/dress.model';
+import { Dress } from '../models/dress.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DressService {
-  private apiUrl = 'http://localhost:8080/api/dresses';
+export class ApiService {
+  private apiUrl = 'http://localhost:8080/api/dresses'; // Your backend API endpoint
 
   constructor(private http: HttpClient) {}
 
