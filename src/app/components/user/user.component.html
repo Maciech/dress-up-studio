@@ -1,0 +1,14 @@
+<div class="user-container">
+    <h2>Welcome to your dashboard</h2>
+    <button (click)="logout()">Logout</button>
+  </div>
+
+
+
+<div class="user-panel">
+  <button class="btn btn-primary" (click)="fetchUserData()">Get User Data</button>
+  <div *ngIf="userData" class="response mt-3">
+    <h5>Response:</h5>
+    <pre>{{ userData | json }}</pre>
+  </div>
+</div>
