@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,7 +11,8 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
+  token = '';
   username = '';
   password = '';
   errorMessage = '';
@@ -21,6 +22,7 @@ export class LoginComponent {
   login(): void {
     this.authService.login(this.username, this.password).subscribe({
       next: (response: { token: string }) => {
+        this.token = response.token;
         this.authService.setToken(response.token); // Save the token to storage
         this.router.navigate(['/user']); // Navigate to the user page
       },
@@ -28,5 +30,8 @@ export class LoginComponent {
         this.errorMessage = 'Invalid username or password';
       },
     });
+  }
+  ngOnDestroy(): void {
+    console.log('kutas registration', this.token);
   }
 }

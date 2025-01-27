@@ -18,9 +18,10 @@ export class UserComponent {
     this.authService.logout();
   }
 
-  fetchUserData(): void {
+  public fetchUserData(): void {
     this.authService.getUserData().subscribe({
       next: (response) => {
+        console.log('!!response', response);
         this.userData = response;
       },
       error: (err) => {
