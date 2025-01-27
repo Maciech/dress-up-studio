@@ -1,0 +1,17 @@
+.user-panel {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .btn {
+    margin-top: 10px;
+  }
+  
+  .response {
+    margin-top: 20px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  
