@@ -1,17 +1,25 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { EmailCheckService } from '../../services/email.check.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
+  registerForm!: FormGroup;
   registerData = {
     username: '',
     password: '',
@@ -24,29 +32,77 @@ export class RegisterComponent {
     cityCode: '',
   };
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private emailCheckService: EmailCheckService, // Inject the email check service
+    private router: Router
+  ) {}
 
-  successMessage: string | null = null;
-  errorMessage: string | null = null;
+  ngOnInit(): void {
+    this.registerForm = this.fb.group({
+      emailAddress: ['', [Validators.required, Validators.email]],
+      password: [
+        '',
+        [Validators.required, Validators.pattern(StrongPasswordRegx)],
+      ],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      phoneNumber: [''],
+      city: [''],
+      streetAndNumber: [''],
+      cityCode: [''],
+    });
 
+    // Subscribe to the email control value changes
+    this.email?.valueChanges.subscribe((email) => {
+      if (this.email?.valid) {
+        this.onEmailTouchedAndValid(email); // Check if the email is valid
+      }
+    });
+  }
+
+  // Getters for form controls
+  get email(): FormControl {
+    return this.registerForm.get('emailAddress') as FormControl;
+  }
+
+  get password() {
+    return this.registerForm.get('password');
+  }
+
+  get firstName() {
+    return this.registerForm.get('firstName');
+  }
+
+  get lastName() {
+    return this.registerForm.get('lastName');
+  }
+
+  // Register function
   register(): void {
     this.authService.register(this.registerData).subscribe({
       next: () => {
-        this.successMessage =
-          'Registration successful! Redirecting to login...';
-        this.errorMessage = null;
-
-        // Redirect to login after 3 seconds
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 3000);
+        alert('Registration successful!');
+        this.router.navigate(['/login']);
       },
       error: (error) => {
-        this.errorMessage = 'Registration failed. Please try again.';
-        this.successMessage = null;
         console.error('Error during registration:', error);
       },
     });
   }
 
+  // Method triggered when the email is valid and touched
+  onEmailTouchedAndValid(email: string): void {
+    this.checkIfUserExists(email); // Check if the email exists in the system
+  }
+
+  // Method to check if the email exists using the service
+  checkIfUserExists(email: string): void {
+    this.emailCheckService.triggerCheck(email); // Trigger the debounced check
+  }
 }
+
+// Strong password regex for validation
+const StrongPasswordRegx: RegExp =
+  /^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/;
