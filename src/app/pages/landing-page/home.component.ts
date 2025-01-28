@@ -5,11 +5,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { Dress } from '../../models/dress.model';
 import { ApiService } from '../../services/api.service';
 import { UserComponent } from '../../components/user/user.component';
+import { ProductListComponent } from '../../components/product-list/product-list.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, DressListComponent, UserComponent],
+  imports: [CommonModule, UserComponent, ProductListComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   providers: [],

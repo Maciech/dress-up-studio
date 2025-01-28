@@ -1,0 +1,57 @@
+<div class="container mt-4">
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Dresses Grid -->
+  <div class="row" *ngIf="!loading && dresses.length > 0">
+    <div class="col-md-4 mb-4" *ngFor="let dress of dresses">
+      <div class="card h-100">
+        <!-- Image Section -->
+        <div class="image-container">
+          <img
+            [src]="'http://localhost:8080' + dress.imageUrl"
+            class="card-img-top"
+            [alt]="dress.name"
+          />
+        </div>
+
+        <!-- Card Body with Transparency -->
+        <div class="card-body">
+          <h5 class="card-title">{{ dress.name }}</h5>
+
+          <!-- Price -->
+          <p><strong>Price:</strong> {{ dress.price }}zł</p>
+
+          <!-- Sizes as Badges -->
+          <p><strong>Available Sizes:</strong></p>
+          <div>
+            <span *ngFor="let size of dress.size" class="badge bg-primary me-1">
+              {{ size }}
+            </span>
+          </div>
+
+          <!-- Colors as Badges -->
+          <p class="mt-2"><strong>Available Colors:</strong></p>
+          <div>
+            <span
+              *ngFor="let color of dress.color"
+              [ngStyle]="{ 'background-color': getColorHex(color) }"
+              class="badge square-color me-1"
+            >
+              <!-- Optionally, you can leave the span empty or show the color name inside -->
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Dresses Available -->
+  <div *ngIf="!loading && dresses.length === 0" class="text-center">
+    <p>No dresses available.</p>
+  </div>
+</div>
