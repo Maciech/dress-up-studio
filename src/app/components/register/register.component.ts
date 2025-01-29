@@ -9,7 +9,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { EmailCheckService } from '../../services/email.check.service';
 
 @Component({
   selector: 'app-register',
@@ -35,7 +34,6 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private emailCheckService: EmailCheckService, // Inject the email check service
     private router: Router
   ) {}
 
@@ -52,13 +50,6 @@ export class RegisterComponent implements OnInit {
       city: [''],
       streetAndNumber: [''],
       cityCode: [''],
-    });
-
-    // Subscribe to the email control value changes
-    this.email?.valueChanges.subscribe((email) => {
-      if (this.email?.valid) {
-        this.onEmailTouchedAndValid(email); // Check if the email is valid
-      }
     });
   }
 
@@ -83,23 +74,12 @@ export class RegisterComponent implements OnInit {
   register(): void {
     this.authService.register(this.registerData).subscribe({
       next: () => {
-        alert('Registration successful!');
         this.router.navigate(['/login']);
       },
       error: (error) => {
         console.error('Error during registration:', error);
       },
     });
-  }
-
-  // Method triggered when the email is valid and touched
-  onEmailTouchedAndValid(email: string): void {
-    this.checkIfUserExists(email); // Check if the email exists in the system
-  }
-
-  // Method to check if the email exists using the service
-  checkIfUserExists(email: string): void {
-    this.emailCheckService.triggerCheck(email); // Trigger the debounced check
   }
 }
 
