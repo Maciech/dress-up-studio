@@ -10,7 +10,7 @@
           id="emailAddress"
           [formControl]="email"  
           placeholder="Enter your email address"
-          (blur)="onEmailTouchedAndValid(email.value)"/>
+        />
         <div *ngIf="email?.invalid && email?.touched" class="text-danger">
           <small *ngIf="email?.errors?.['required']">Email is required.</small>
           <small *ngIf="email?.errors?.['email']">Please enter a valid email address.</small>
@@ -26,12 +26,12 @@
           placeholder="Enter a password"
         />
         <div *ngIf="password?.dirty" class="text-danger">
-          <small *ngIf="!password?.value?.match('^(?=.*[A-Z])')">At least one uppercase letter.</small>
-          <small *ngIf="!password?.value?.match('(?=.*[a-z])')">At least one lowercase letter.</small>
-          <small *ngIf="!password?.value?.match('(?=.*[0-9])')">At least one digit.</small>
-          <small *ngIf="!password?.value?.match('(?=.*[!@#$%^&*])')">At least one special character.</small>
-          <small *ngIf="!password?.value?.match('.{8,}')">At least 8 characters long.</small>
-        </div>
+          <small *ngIf="!password?.value?.match('^(?=.*[A-Z])')" class="d-block">At least one uppercase letter.</small>
+          <small *ngIf="!password?.value?.match('(?=.*[a-z])')" class="d-block">At least one lowercase letter.</small>
+          <small *ngIf="!password?.value?.match('(?=.*[0-9])')" class="d-block">At least one digit.</small>
+          <small *ngIf="!password?.value?.match('(?=.*[!@#$%^&*])')" class="d-block">At least one special character.</small>
+          <small *ngIf="!password?.value?.match('.{8,}')" class="d-block">At least 8 characters long.</small>
+        </div>        
       </div>
       
       <div class="row">
