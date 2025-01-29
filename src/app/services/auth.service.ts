@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8080/api/auth'; // URL do endpointów uwierzytelniania na backendzie
@@ -12,13 +12,16 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, { username, password });
-  }  
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, {
+      email,
+      password,
+    });
+  }
 
   getUserData(): Observable<any> {
     return this.http.get<{ token: string }>(`${this.apiUrl}/users/panel`);
-  }  
+  }
 
   register(registerData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, registerData);

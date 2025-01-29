@@ -19,17 +19,6 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
-  registerData = {
-    username: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    phoneNumber: null,
-    emailAddress: '',
-    city: '',
-    streetAndNumber: '',
-    cityCode: '',
-  };
 
   constructor(
     private fb: FormBuilder,
@@ -39,13 +28,13 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
-      emailAddress: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       password: [
         '',
         [Validators.required, Validators.pattern(StrongPasswordRegx)],
       ],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstName: [''], // Validators.required
+      lastName: [''], // Validators.required for dev purposes
       phoneNumber: [''],
       city: [''],
       streetAndNumber: [''],
@@ -55,7 +44,7 @@ export class RegisterComponent implements OnInit {
 
   // Getters for form controls
   get email(): FormControl {
-    return this.registerForm.get('emailAddress') as FormControl;
+    return this.registerForm.get('email') as FormControl;
   }
 
   get password() {
@@ -72,7 +61,14 @@ export class RegisterComponent implements OnInit {
 
   // Register function
   register(): void {
-    this.authService.register(this.registerData).subscribe({
+    if (this.registerForm.invalid) {
+      return; // Prevent submission if form is invalid
+    }
+
+    // Get the form values and store them in an object
+    const registerData = this.registerForm.value;
+
+    this.authService.register(registerData).subscribe({
       next: () => {
         this.router.navigate(['/login']);
       },

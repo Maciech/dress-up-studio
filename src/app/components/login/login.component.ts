@@ -13,14 +13,14 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent implements OnDestroy {
   token = '';
-  username = '';
+  email = '';
   password = '';
   errorMessage = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
   login(): void {
-    this.authService.login(this.username, this.password).subscribe({
+    this.authService.login(this.email, this.password).subscribe({
       next: (response: { token: string }) => {
         this.token = response.token;
         this.authService.setToken(response.token); // Save the token to storage
