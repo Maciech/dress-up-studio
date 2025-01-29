@@ -70,7 +70,17 @@ export class RegisterComponent implements OnInit {
 
     this.authService.register(registerData).subscribe({
       next: () => {
-        this.router.navigate(['/login']);
+        this.authService
+          .login(registerData.email, registerData.password)
+          .subscribe({
+            next: (response: { token: string }) => {
+              this.authService.setToken(response.token);
+              this.router.navigate(['/user']);
+            },
+            error: (error) => {
+              console.error('Error during login:', error);
+            },
+          });
       },
       error: (error) => {
         console.error('Error during registration:', error);
