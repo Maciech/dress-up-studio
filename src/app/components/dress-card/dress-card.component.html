@@ -1,5 +1,5 @@
 <div class="dress-card">
     <h3>{{ dress.name }}</h3>
     <p>${{ dress.price.toFixed(2) }}</p>
-    <button>Add to Cart</button>
+    <button (click)="addToBasket(dress)">Add to Cart</button>
     </div>
