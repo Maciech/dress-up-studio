@@ -1,10 +1,10 @@
-import { DressAvailability } from "./availability.model";
-import { COLOR } from "./enums";
+import { DressAvailability } from './availability.model';
+import { COLOR } from './enums';
 
 export interface Dress {
   name: string;
   productCode: string;
-  color: COLOR; 
+  color: COLOR;
   dressAvailability: DressAvailability[];
   imageUrls: string[];
 }
