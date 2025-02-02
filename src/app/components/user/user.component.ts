@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { ApiService } from '../../services/api.service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-user',
@@ -12,7 +14,9 @@ import { CommonModule } from '@angular/common';
 export class UserComponent {
   userData: any;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,
+    private apiService: ApiService, // Assuming ApiService is a service that fetches dresses from the server.
+  ) {}
 
   logout(): void {
     this.authService.logout();
@@ -30,4 +34,11 @@ export class UserComponent {
       },
     });
   }
+
+  // public saveDress(): void {
+  //   this.apiService.saveImage().pipe(
+  //     switchMap((data) => this.apiService.createDress(data))
+  //   ).subscribe();
+    
+  // }
 }

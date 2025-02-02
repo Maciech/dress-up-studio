@@ -8,43 +8,55 @@
 
   <!-- Dresses Grid -->
   <div class="row" *ngIf="!loading && dresses.length > 0">
-    <div class="col-md-4 mb-4" *ngFor="let dress of dresses">
+    <div class="col-md-4 mb-4" *ngFor="let dress of dresses; let i = index">
       <div class="card h-100">
-        <!-- Image Section -->
-        <div class="image-container">
+        <!-- Image Carousel -->
+        <div class="image-container position-relative">
+          <button class="btn btn-dark position-absolute start-0 top-50 translate-middle-y"
+            (click)="prevImage(i)">
+            &#10094;
+          </button>
+
           <img
-            [src]="'http://localhost:8080' + dress.imageUrl"
+            *ngIf="dress.imageUrls.length > 0"
+            [src]="'http://localhost:8080' + dress.imageUrls[currentImageIndex[i]]"
             class="card-img-top"
             [alt]="dress.name"
           />
+
+          <button class="btn btn-dark position-absolute end-0 top-50 translate-middle-y"
+            (click)="nextImage(i)">
+            &#10095;
+          </button>
         </div>
 
-        <!-- Card Body with Transparency -->
+        <!-- Card Body -->
         <div class="card-body">
           <h5 class="card-title">{{ dress.name }}</h5>
 
-          <!-- Price -->
-          <p><strong>Price:</strong> {{ dress.price }}zł</p>
-
           <!-- Sizes as Badges -->
-          <p><strong>Available Sizes:</strong></p>
+          <p><strong>Dostępne rozmiary:</strong></p>
           <div>
-            <span *ngFor="let size of dress.size" class="badge bg-primary me-1">
+            <span
+              *ngFor="let size of getUniqueSizes(dress.dressAvailability)"
+              class="badge me-2">
               {{ size }}
             </span>
           </div>
 
-          <!-- Colors as Badges -->
-          <p class="mt-2"><strong>Available Colors:</strong></p>
-          <div>
+          <!-- Price Range -->
+          <p class="mt-2">
+            <strong>Cena:</strong>
+            {{ getLowestPrice(dress.dressAvailability) }} zł
+          </p>
+
+          <!-- Color Badge -->
+          <!-- <div>
             <span
-              *ngFor="let color of dress.color"
-              [ngStyle]="{ 'background-color': getColorHex(color) }"
+              [ngStyle]="{ 'background-color': getColorHex(dress.color) }"
               class="badge square-color me-1"
-            >
-              <!-- Optionally, you can leave the span empty or show the color name inside -->
-            </span>
-          </div>
+            ></span>
+          </div> -->
         </div>
       </div>
     </div>
