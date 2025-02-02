@@ -17,7 +17,7 @@ export class AuthService {
   }  
 
   getUserData(): Observable<any> {
-    return this.http.get<{ token: string }>(`${this.apiUrl}/users/panel`);
+    return this.http.get(`${this.apiUrl}/users/panel`);
   }  
 
   register(registerData: any): Observable<any> {

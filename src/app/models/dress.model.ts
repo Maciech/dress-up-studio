@@ -1,9 +1,10 @@
-import { COLOR, SIZE } from "./enums";
+import { DressAvailability } from "./availability.model";
+import { COLOR } from "./enums";
 
 export interface Dress {
   name: string;
-  price: number;
-  size: SIZE[]; // Array of SIZE enums
-  color: COLOR[]; // Array of COLOR enums
-  imageUrl: string;
+  productCode: string;
+  color: COLOR; 
+  dressAvailability: DressAvailability[];
+  imageUrls: string[];
 }

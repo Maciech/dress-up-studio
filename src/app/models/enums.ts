@@ -7,9 +7,10 @@ export enum SIZE {
   }
   
   export enum COLOR {
-    RED = 'Red',
-    BLUE = 'Blue',
-    GREEN = 'Green',
-    BLACK = 'Black',
-    WHITE = 'White'
+    RED = 'RED',
+    BLUE = 'BLUE',
+    GREEN = 'GREEN',
+    BLACK = 'BLACK',
+    WHITE = 'WHITE',
+    PINK = 'PINK'
   }

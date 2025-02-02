@@ -7,6 +7,9 @@ import { Dress } from '../models/dress.model';
   providedIn: 'root'
 })
 export class ApiService {
+  saveImage() {
+    return this.http.get<Observable<any>>(this.apiUrl);
+  }
   private apiUrl = 'http://localhost:8080/api/dresses'; // Your backend API endpoint
 
   constructor(private http: HttpClient) {}
