@@ -1,4 +1,6 @@
 <div class="dress-card">
     <h3>{{ dress.name }}</h3>
-    <button>Add to Cart</button>
-    </div>
+    <p>${{ dress.dressAvailability[0].price.toFixed(2) }}</p>
+    <p>TEEST</p>
+    <button (click)="addToBasket(dress)">Add to Cart</button>
+</div>
