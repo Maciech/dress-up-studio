@@ -4,6 +4,8 @@ import { UserComponent } from './components/user/user.component';
 import { authGuard } from './auth.guard';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
+import { BasketComponent } from './components/basket/basket.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 export const routes: Routes = [
   {
@@ -22,5 +24,13 @@ export const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent,
+  },
+  {
+    path: 'basket',
+    component: BasketComponent,
+  },
+  {
+    path: 'dress/:id',
+    component: ProductDetailsComponent,
   },
 ];
