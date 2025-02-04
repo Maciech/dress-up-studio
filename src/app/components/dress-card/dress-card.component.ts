@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Dress } from '../../models/dress.model';
 import { BasketService } from '../../services/basket.service';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { DressAvailability } from '../../models/availability.model';
 import { COLOR } from '../../models/enums';
 
@@ -17,7 +17,7 @@ export class DressCardComponent {
   @Input() dress!: Dress;
   currentImageIndex: number = 0;
 
-  constructor(private basketService: BasketService) {}
+  constructor(private router: Router, private basketService: BasketService) {}
 
   addToBasket(item: Dress) {
     this.basketService.addItem(item);
@@ -67,5 +67,11 @@ export class DressCardComponent {
     const prices = dressAvailability.map((a) => a.price);
     const minPrice = Math.min(...prices);
     return minPrice;
+  }
+  navigateToProductDetails(dress: Dress) {
+    this.router.navigate([
+      '/dress',
+      dress.dressAvailability[0].dressAvailabilityId,
+    ]); // by default navigate to the first dress
   }
 }

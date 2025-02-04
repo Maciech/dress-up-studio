@@ -1,14 +1,16 @@
 
 <div class="card h-100">
     <!-- Image Carousel -->
-    <div class="image-container position-relative">
+    <div class="image-container position-relative" >
 
-      <img
-        *ngIf="dress.imageUrls.length > 0"
-        [src]="'http://localhost:8080' + dress.imageUrls[currentImageIndex]"
-        class="card-img-top"
-        [alt]="dress.name"
-      />
+      <div (click)="navigateToProductDetails(dress)">
+        <img
+          *ngIf="dress.imageUrls.length > 0"
+          [src]="'http://localhost:8080' + dress.imageUrls[currentImageIndex]"
+          class="card-img-top"
+          [alt]="dress.name"
+        />
+      </div>
 
       <button class="btn btn-dark position-absolute start-0 top-50 translate-middle-y"
         (click)="prevImage(currentImageIndex)">
@@ -48,6 +50,5 @@
           class="badge square-color me-1"
         ></span>
       </div>
-      <button (click)="addToBasket(dress)">Dodaj do koszyka</button>
     </div>
   </div>
