@@ -1,6 +1,53 @@
-<div class="dress-card">
-    <h3>{{ dress.name }}</h3>
-    <p>${{ dress.dressAvailability[0].price.toFixed(2) }}</p>
-    <p>TEEST</p>
-    <button (click)="addToBasket(dress)">Add to Cart</button>
-</div>
+
+<div class="card h-100">
+    <!-- Image Carousel -->
+    <div class="image-container position-relative">
+
+      <img
+        *ngIf="dress.imageUrls.length > 0"
+        [src]="'http://localhost:8080' + dress.imageUrls[currentImageIndex]"
+        class="card-img-top"
+        [alt]="dress.name"
+      />
+
+      <button class="btn btn-dark position-absolute start-0 top-50 translate-middle-y"
+        (click)="prevImage(currentImageIndex)">
+        &#10094;
+      </button>
+
+      <button class="btn btn-dark position-absolute end-0 top-50 translate-middle-y"
+        (click)="nextImage(currentImageIndex)">
+        &#10095;
+      </button>
+    </div>
+
+    <!-- Card Body -->
+    <div class="card-body">
+      <h5 class="card-title">{{ dress.name }}</h5>
+
+      <!-- Sizes as Badges -->
+      <p><strong>Dostępne rozmiary:</strong></p>
+      <div>
+        <span
+          *ngFor="let size of getUniqueSizes(dress.dressAvailability)"
+          class="badge me-2">
+          {{ size }}
+        </span>
+      </div>
+
+      <!-- Price Range -->
+      <p class="mt-2">
+        <strong>Cena:</strong>
+        {{ getLowestPrice(dress.dressAvailability) }} zł
+      </p>
+
+      <!-- Color Badge -->
+      <div>
+        <span
+          [ngStyle]="{ 'background-color': getColorHex(dress.color) }"
+          class="badge square-color me-1"
+        ></span>
+      </div>
+      <button (click)="addToBasket(dress)">Dodaj do koszyka</button>
+    </div>
+  </div>

@@ -6,63 +6,11 @@
     </div>
   </div>
 
-  <!-- Dresses Grid -->
-  <div class="row" *ngIf="!loading && dresses.length > 0">
-    <div class="col-md-4 mb-4" *ngFor="let dress of dresses; let i = index">
-      <div class="card h-100">
-        <!-- Image Carousel -->
-        <div class="image-container position-relative">
-          <button class="btn btn-dark position-absolute start-0 top-50 translate-middle-y"
-            (click)="prevImage(i)">
-            &#10094;
-          </button>
-
-          <img
-            *ngIf="dress.imageUrls.length > 0"
-            [src]="'http://localhost:8080' + dress.imageUrls[currentImageIndex[i]]"
-            class="card-img-top"
-            [alt]="dress.name"
-          />
-
-          <button class="btn btn-dark position-absolute end-0 top-50 translate-middle-y"
-            (click)="nextImage(i)">
-            &#10095;
-          </button>
-        </div>
-
-        <!-- Card Body -->
-        <div class="card-body">
-          <h5 class="card-title">{{ dress.name }}</h5>
-
-          <!-- Sizes as Badges -->
-          <p><strong>Dostępne rozmiary:</strong></p>
-          <div>
-            <span
-              *ngFor="let size of getUniqueSizes(dress.dressAvailability)"
-              class="badge me-2">
-              {{ size }}
-            </span>
-          </div>
-
-          <!-- Price Range -->
-          <p class="mt-2">
-            <strong>Cena:</strong>
-            {{ getLowestPrice(dress.dressAvailability) }} zł
-          </p>
-
-          <!-- Color Badge -->
-          <!-- <div>
-            <span
-              [ngStyle]="{ 'background-color': getColorHex(dress.color) }"
-              class="badge square-color me-1"
-            ></span>
-          </div> -->
-        </div>
-      </div>
-    </div>
+  <div class="col-md-4 mb-4" *ngFor="let dress of dresses">
+  <app-dress-card [dress]="dress"></app-dress-card>
   </div>
 
-  <!-- No Dresses Available -->
+  
   <div *ngIf="!loading && dresses.length === 0" class="text-center">
     <p>No dresses available.</p>
   </div>
