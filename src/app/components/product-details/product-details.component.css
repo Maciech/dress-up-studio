@@ -1,0 +1,23 @@
+:host {
+  background: none !important; /* Remove global background */
+  color: black !important; /* Ensure readable text */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  min-height: 100vh; /* Full viewport height */
+  width: 100%; /* Full width */
+}
+
+.product-details {
+  background-color: white; /* Set a clear background */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%; /* Full width */
+  max-width: 800px; /* Limit maximum width */
+  height: 100%; /* Take full height */
+  min-height: 60vh; /* Ensure it has enough height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content inside */
+}
