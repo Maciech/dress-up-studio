@@ -1,4 +1,5 @@
 <div class="container mt-4">
+  <app-product-filter (filtersChanged)="onFiltersChanged($event)"></app-product-filter>
   <!-- Loading Spinner -->
   <div *ngIf="loading" class="text-center">
     <div class="spinner-border" role="status">
@@ -6,12 +7,15 @@
     </div>
   </div>
 
-  <div class="col-md-4 mb-4" *ngFor="let dress of dresses">
-  <app-dress-card [dress]="dress"></app-dress-card>
+  <!-- Dress Cards List -->
+  <div class="row">
+    <div *ngFor="let dress of filteredDresses" class="col-md-4 mb-4">
+      <app-dress-card [dress]="dress"></app-dress-card>
+    </div>
   </div>
 
-  
-  <div *ngIf="!loading && dresses.length === 0" class="text-center">
+  <!-- No Dresses Found -->
+  <div *ngIf="!loading && filteredDresses.length === 0" class="text-center">
     <p>No dresses available.</p>
   </div>
 </div>

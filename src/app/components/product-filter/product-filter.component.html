@@ -1,0 +1,71 @@
+<div class="filter-container">
+    <!-- Search Filter -->
+    <div class="filter-item">
+      <input
+        id="searchInput"
+        [(ngModel)]="filters.searchTerm"
+        (ngModelChange)="onSearchChange($event)"
+        class="form-control"
+        type="text"
+        placeholder="Wyszukaj sukienkę..."
+      />
+    </div>
+  
+    <!-- Size Filter -->
+    <div class="filter-item dropdown">
+      <button
+        class="btn btn-outline-secondary dropdown-toggle"
+        type="button"
+        id="sizeDropdown"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        Rozmiar
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="sizeDropdown">
+        <li *ngFor="let size of availableSizes">
+          <div class="form-check ms-2">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              [value]="size"
+              (change)="onSizeCheckboxChange($event)"
+              [checked]="filters.size.includes(size)"
+              id="size_{{ size }}"
+            />
+            <label class="form-check-label" for="size_{{ size }}">{{ size }}</label>
+          </div>
+        </li>
+      </ul>
+    </div>
+  
+    <!-- Color Filter -->
+<div class="filter-item dropdown">
+    <button
+      class="btn btn-outline-secondary dropdown-toggle"
+      type="button"
+      id="colorDropdown"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      Kolor
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="colorDropdown">
+      <li *ngFor="let color of availableColors">
+        <div class="form-check ms-4 d-flex align-items-center">
+          <!-- Color Box Checkbox -->
+          <input
+            type="checkbox"
+            class="form-check-input color-box-checkbox"
+            [value]="color"
+            (change)="onColorCheckboxChange($event)"
+            [checked]="filters.color.includes(color)"
+            id="color_{{ color }}"
+            [ngStyle]="{ 'background-color': getColorHex(color) }"
+          />
+        </div>
+      </li>
+    </ul>
+  </div>
+  
+  
