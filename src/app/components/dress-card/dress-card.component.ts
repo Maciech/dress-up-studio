@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { DressAvailability } from '../../models/availability.model';
 import { COLOR } from '../../models/enums';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-dress-card',
@@ -17,10 +18,18 @@ export class DressCardComponent {
   @Input() dress!: Dress;
   currentImageIndex: number = 0;
 
-  constructor(private router: Router, private basketService: BasketService) {}
+  constructor(
+    private router: Router,
+    private basketService: BasketService,
+    private utilityService: UtilityService
+  ) {}
 
   addToBasket(item: Dress) {
     this.basketService.addItem(item);
+  }
+
+  getColorHex(arg0: COLOR): any {
+    return this.utilityService.getColorHex(arg0);
   }
 
   prevImage(dressIndex: number) {
@@ -46,20 +55,6 @@ export class DressCardComponent {
   // Extract unique sizes from dress availability
   getUniqueSizes(availability: DressAvailability[]): string[] {
     return [...new Set(availability.map((a) => a.size))];
-  }
-
-  getColorHex(color: COLOR): string {
-    console.log(color);
-    const colorMap: { [key in COLOR]: string } = {
-      [COLOR.RED]: 'red', // Bootstrap danger color
-      [COLOR.BLUE]: 'blue', // Bootstrap primary color
-      [COLOR.GREEN]: 'green', // Bootstrap success color
-      [COLOR.BLACK]: 'black', // Bootstrap dark color
-      [COLOR.WHITE]: 'white', // Bootstrap secondary (grayish for contrast)
-      [COLOR.PINK]: 'pink',
-    };
-    console.log(colorMap[color]);
-    return colorMap[color] || '#6c757d'; // Default gray if not found
   }
 
   getLowestPrice(dressAvailability: DressAvailability[]) {

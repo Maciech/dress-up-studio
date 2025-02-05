@@ -1,119 +1,150 @@
 <div class="container mt-5">
-    <h2 class="mb-4">Add New Dress</h2>
-    <form [formGroup]="dressForm" (ngSubmit)="onSubmit()">
-      <div class="mb-3">
-        <label for="name" class="form-label">Dress Name</label>
-        <input
-          type="text"
-          id="name"
-          class="form-control"
-          formControlName="name"
-          placeholder="Enter dress name"
-          required
-        />
-      </div>
-  
-      <div class="mb-3">
-        <label for="productCode" class="form-label">Product Code</label>
-        <input
-          type="text"
-          id="productCode"
-          class="form-control"
-          formControlName="productCode"
-          placeholder="Enter product code"
-          required
-        />
-      </div>
-  
-      <div class="mb-3">
-        <label for="color" class="form-label">Color</label>
-        <select
-          id="color"
-          class="form-select"
-          formControlName="color"
-          required
+  <h2 class="mb-4 text-center">Dodaj nowy produkt</h2>
+  <form [formGroup]="dressForm" (ngSubmit)="onSubmit()" class="form-container">
+    <div class="mb-4">
+      <label for="name" class="form-label">Nazwa produktu</label>
+      <input
+        type="text"
+        id="name"
+        class="form-control form-input"
+        formControlName="name"
+        placeholder="Enter dress name"
+        required
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="productCode" class="form-label">Kod produktu</label>
+      <input
+        type="text"
+        id="productCode"
+        class="form-control form-input"
+        formControlName="productCode"
+        placeholder="Enter product code"
+        required
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="color" class="form-label">Kolor</label>
+      <select
+        id="color"
+        class="form-select form-input"
+        formControlName="color"
+        required
+      >
+        <option value="" disabled>Wybierz kolor</option>
+        <option
+          *ngFor="let color of colors"
+          [ngStyle]="{ 'background-color': getColorHex(color) }"
+          [value]="color"
         >
-          <option value="" disabled>Select a color</option>
-          <option *ngFor="let color of colors" [value]="color">{{ color }}</option>
-        </select>
-      </div>
-  
-      <div class="mb-3">
-        <label for="imageUrls" class="form-label">Image URLs</label>
-        <textarea
-          id="imageUrls"
-          class="form-control"
-          formControlName="imageUrls"
-          placeholder="Enter image URLs separated by commas"
-        ></textarea>
-      </div>
-  
-      <div class="mb-3">
-        <h5>Dress Availability</h5>
+          {{ color }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label for="imageUrls" class="form-label">Załącz zdjęcia</label>
+      <input
+        type="file"
+        id="imageUrls"
+        class="form-control form-input"
+        (change)="onFileSelected($event)"
+        multiple
+        accept="image/*"
+      />
+      <div class="mt-2">
         <div
-          class="card mb-2"
-          *ngFor="let availability of dressAvailability.controls; let i = index"
-          [formGroupName]="i"
+          *ngFor="let file of selectedFiles; let i = index"
+          class="d-flex align-items-center"
         >
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-3">
-                <label for="size-{{ i }}" class="form-label">Size</label>
-                <select
-                  id="size-{{ i }}"
-                  class="form-select"
-                  formControlName="size"
-                  required
-                >
-                  <option value="" disabled>Select size</option>
-                  <option *ngFor="let size of sizes" [value]="size">{{ size }}</option>
-                </select>
-              </div>
-  
-              <div class="col-md-3">
-                <label for="isAvailable-{{ i }}" class="form-label">Availability</label>
-                <select
-                  id="isAvailable-{{ i }}"
-                  class="form-select"
-                  formControlName="isAvailable"
-                  required
-                >
-                  <option [value]="true">Available</option>
-                  <option [value]="false">Unavailable</option>
-                </select>
-              </div>
-  
-              <div class="col-md-3">
-                <label for="price-{{ i }}" class="form-label">Price</label>
-                <input
-                  type="number"
-                  id="price-{{ i }}"
-                  class="form-control"
-                  formControlName="price"
-                  placeholder="Enter price"
-                  required
-                />
-              </div>
-  
-              <div class="col-md-3 d-flex align-items-end">
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  (click)="removeAvailability(i)"
-                >
-                  Remove
-                </button>
-              </div>
+          <span class="me-2">{{ file.name }}</span>
+          <button
+            type="button"
+            class="btn btn-danger btn-sm align-items-center"
+            (click)="removeFile(i)"
+          >
+            Usuń
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dress Availability Section -->
+    <div formArrayName="dressAvailability">
+      <div
+        class="card mb-4"
+        *ngFor="let availability of dressAvailability.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <label for="size-{{ i }}" class="form-label">Rozmiar</label>
+              <select
+                id="size-{{ i }}"
+                class="form-select form-input"
+                formControlName="size"
+                required
+              >
+                <option value="" disabled>Wybierz rozmiar</option>
+                <option *ngFor="let size of sizes" [value]="size">
+                  {{ size }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-md-3 mb-3">
+              <label for="isAvailable-{{ i }}" class="form-label"
+                >Dostępność</label
+              >
+              <select
+                id="isAvailable-{{ i }}"
+                class="form-select form-input"
+                formControlName="isAvailable"
+                required
+              >
+                <option [value]="true">Dostępny</option>
+                <option [value]="false">Niedostępny</option>
+              </select>
+            </div>
+
+            <div class="col-md-3 mb-3">
+              <label for="price-{{ i }}" class="form-label">Cena</label>
+              <input
+                type="number"
+                id="price-{{ i }}"
+                class="form-control form-input"
+                formControlName="price"
+                placeholder="Enter price"
+                required
+              />
+            </div>
+
+            <div class="col-md-3 d-flex">
+              <button
+                type="button"
+                class="btn btn-danger btn-sm w-100"
+                (click)="removeAvailability(i)"
+              >
+                <i class="fas fa-trash-alt"></i>
+                <!-- Font Awesome Trash Icon -->
+              </button>
             </div>
           </div>
         </div>
-  
-        <button type="button" class="btn btn-primary" (click)="addAvailability()">
-          Add Availability
-        </button>
       </div>
-  
-      <button type="submit" class="btn btn-success mt-3">Submit</button>
-    </form>
-  </div>
-  
+
+      <button
+        type="button"
+        class="btn btn-primary mt-3"
+        (click)="addAvailability()"
+      >
+        Dodaj rozmiar
+      </button>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-4 w-100">Dodaj</button>
+  </form>
+</div>
