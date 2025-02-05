@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { DressAvailability } from '../../models/availability.model';
 import { COLOR } from '../../models/enums';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-dress-card',
@@ -17,12 +18,20 @@ export class DressCardComponent {
   @Input() dress!: Dress;
   currentImageIndex: number = 0;
 
-  constructor(private router: Router, private basketService: BasketService) {}
+  constructor(
+    private router: Router,
+    private basketService: BasketService,
+    private utilityService: UtilityService
+  ) {}
 
   addToBasket(dress: Dress) {
     const defaultSize = dress.dressAvailability[0].size;
     const price = dress.dressAvailability[0].price;
     this.basketService.addToBasket(dress, defaultSize, price);
+  }
+
+  getColorHex(arg0: COLOR): any {
+    return this.utilityService.getColorHex(arg0);
   }
 
   prevImage(dressIndex: number) {
@@ -62,6 +71,7 @@ export class DressCardComponent {
     console.log(colorMap[color]);
     return colorMap[color] || '#6c757d'; // Default gray if not found
   }
+
 
   getLowestPrice(dressAvailability: DressAvailability[]) {
     if (!dressAvailability || dressAvailability.length === 0) return 'N/A';
