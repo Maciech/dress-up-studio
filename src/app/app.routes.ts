@@ -31,7 +31,7 @@ export const routes: Routes = [
     component: BasketComponent,
   },
   {
-    path: 'dress/:id',
+    path: ':name/:id',
     component: ProductDetailsComponent,
   },
   {

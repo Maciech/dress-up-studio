@@ -1,29 +1,96 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { BasketItem } from '../models/basket-item.model';
 import { Dress } from '../models/dress.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BasketService {
-  private items = new BehaviorSubject<Dress[]>([]);
-  items$ = this.items.asObservable();
+  private basketKey = 'shopping_basket';
+  private basketItems = new BehaviorSubject<BasketItem[]>([]);
 
-  addItem(product: Dress) {
-    const currentItems = this.items.value;
-    this.items.next([...currentItems, product]);
+  constructor() {
+    this.loadBasket();
   }
 
-  removeItem(product: Dress) {
-    const updatedItems = this.items.value.filter((item) => item !== product);
-    this.items.next(updatedItems);
+  private loadBasket(): void {
+    const savedBasket = localStorage.getItem(this.basketKey);
+    if (savedBasket) {
+      this.basketItems.next(JSON.parse(savedBasket));
+    }
   }
 
-  clearBasket() {
-    this.items.next([]);
+  private saveBasket(items: BasketItem[]): void {
+    localStorage.setItem(this.basketKey, JSON.stringify(items));
+    this.basketItems.next(items);
   }
 
-  getItems() {
-    return this.items.value;
+  getBasketItems(): Observable<BasketItem[]> {
+    return this.basketItems.asObservable();
+  }
+
+  addToBasket(dress: Dress, size: string, price: number): void {
+    const currentItems = this.basketItems.value;
+    const existingItem = currentItems.find(
+      (item) =>
+        item.dress.name === dress.name &&
+        item.dress.color === dress.color &&
+        item.dress.productCode === dress.productCode &&
+        item.size === size
+    );
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+      this.saveBasket([...currentItems]);
+    } else {
+      const newItem: BasketItem = {
+        id: Date.now(),
+        dress,
+        size,
+        quantity: 1,
+        price,
+      };
+      this.saveBasket([...currentItems, newItem]);
+    }
+  }
+
+  removeFromBasket(itemId: number): void {
+    const currentItems = this.basketItems.value;
+    this.saveBasket(currentItems.filter((item) => item.id !== itemId));
+  }
+
+  updateQuantity(itemId: number, quantity: number): void {
+    const currentItems = this.basketItems.value;
+    const item = currentItems.find((item) => item.id === itemId);
+    if (item) {
+      item.quantity = quantity;
+      this.saveBasket([...currentItems]);
+    }
+  }
+
+  clearBasket(): void {
+    this.saveBasket([]);
+  }
+
+  getTotalItems(): Observable<number> {
+    return new Observable<number>((observer) => {
+      this.basketItems.subscribe((items) => {
+        const total = items.reduce((sum, item) => sum + item.quantity, 0);
+        observer.next(total);
+      });
+    });
+  }
+
+  getTotalPrice(): Observable<number> {
+    return new Observable<number>((observer) => {
+      this.basketItems.subscribe((items) => {
+        const total = items.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0
+        );
+        observer.next(total);
+      });
+    });
   }
 }

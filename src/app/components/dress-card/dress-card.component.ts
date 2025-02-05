@@ -24,8 +24,10 @@ export class DressCardComponent {
     private utilityService: UtilityService
   ) {}
 
-  addToBasket(item: Dress) {
-    this.basketService.addItem(item);
+  addToBasket(dress: Dress) {
+    const defaultSize = dress.dressAvailability[0].size;
+    const price = dress.dressAvailability[0].price;
+    this.basketService.addToBasket(dress, defaultSize, price);
   }
 
   getColorHex(arg0: COLOR): any {
@@ -57,6 +59,20 @@ export class DressCardComponent {
     return [...new Set(availability.map((a) => a.size))];
   }
 
+  getColorHex(color: COLOR): string {
+    const colorMap: { [key in COLOR]: string } = {
+      [COLOR.RED]: 'red', // Bootstrap danger color
+      [COLOR.BLUE]: 'blue', // Bootstrap primary color
+      [COLOR.GREEN]: 'green', // Bootstrap success color
+      [COLOR.BLACK]: 'black', // Bootstrap dark color
+      [COLOR.WHITE]: 'white', // Bootstrap secondary (grayish for contrast)
+      [COLOR.PINK]: 'pink',
+    };
+    console.log(colorMap[color]);
+    return colorMap[color] || '#6c757d'; // Default gray if not found
+  }
+
+
   getLowestPrice(dressAvailability: DressAvailability[]) {
     if (!dressAvailability || dressAvailability.length === 0) return 'N/A';
     const prices = dressAvailability.map((a) => a.price);
@@ -65,7 +81,8 @@ export class DressCardComponent {
   }
   navigateToProductDetails(dress: Dress) {
     this.router.navigate([
-      '/dress',
+      '/',
+      dress.name,
       dress.dressAvailability[0].dressAvailabilityId,
     ]); // by default navigate to the first dress
   }
