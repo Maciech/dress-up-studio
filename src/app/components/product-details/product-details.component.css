@@ -21,3 +21,23 @@
   flex-direction: column;
   justify-content: center; /* Center content inside */
 }
+
+.main-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.main-image img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.main-image button {
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.main-image button:hover {
+  opacity: 1;
+}
