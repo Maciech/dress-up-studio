@@ -1,0 +1,119 @@
+<div class="container mt-5">
+    <h2 class="mb-4">Add New Dress</h2>
+    <form [formGroup]="dressForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="name" class="form-label">Dress Name</label>
+        <input
+          type="text"
+          id="name"
+          class="form-control"
+          formControlName="name"
+          placeholder="Enter dress name"
+          required
+        />
+      </div>
+  
+      <div class="mb-3">
+        <label for="productCode" class="form-label">Product Code</label>
+        <input
+          type="text"
+          id="productCode"
+          class="form-control"
+          formControlName="productCode"
+          placeholder="Enter product code"
+          required
+        />
+      </div>
+  
+      <div class="mb-3">
+        <label for="color" class="form-label">Color</label>
+        <select
+          id="color"
+          class="form-select"
+          formControlName="color"
+          required
+        >
+          <option value="" disabled>Select a color</option>
+          <option *ngFor="let color of colors" [value]="color">{{ color }}</option>
+        </select>
+      </div>
+  
+      <div class="mb-3">
+        <label for="imageUrls" class="form-label">Image URLs</label>
+        <textarea
+          id="imageUrls"
+          class="form-control"
+          formControlName="imageUrls"
+          placeholder="Enter image URLs separated by commas"
+        ></textarea>
+      </div>
+  
+      <div class="mb-3">
+        <h5>Dress Availability</h5>
+        <div
+          class="card mb-2"
+          *ngFor="let availability of dressAvailability.controls; let i = index"
+          [formGroupName]="i"
+        >
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3">
+                <label for="size-{{ i }}" class="form-label">Size</label>
+                <select
+                  id="size-{{ i }}"
+                  class="form-select"
+                  formControlName="size"
+                  required
+                >
+                  <option value="" disabled>Select size</option>
+                  <option *ngFor="let size of sizes" [value]="size">{{ size }}</option>
+                </select>
+              </div>
+  
+              <div class="col-md-3">
+                <label for="isAvailable-{{ i }}" class="form-label">Availability</label>
+                <select
+                  id="isAvailable-{{ i }}"
+                  class="form-select"
+                  formControlName="isAvailable"
+                  required
+                >
+                  <option [value]="true">Available</option>
+                  <option [value]="false">Unavailable</option>
+                </select>
+              </div>
+  
+              <div class="col-md-3">
+                <label for="price-{{ i }}" class="form-label">Price</label>
+                <input
+                  type="number"
+                  id="price-{{ i }}"
+                  class="form-control"
+                  formControlName="price"
+                  placeholder="Enter price"
+                  required
+                />
+              </div>
+  
+              <div class="col-md-3 d-flex align-items-end">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="removeAvailability(i)"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <button type="button" class="btn btn-primary" (click)="addAvailability()">
+          Add Availability
+        </button>
+      </div>
+  
+      <button type="submit" class="btn btn-success mt-3">Submit</button>
+    </form>
+  </div>
+  
