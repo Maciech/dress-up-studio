@@ -19,8 +19,10 @@ export class DressCardComponent {
 
   constructor(private router: Router, private basketService: BasketService) {}
 
-  addToBasket(item: Dress) {
-    this.basketService.addItem(item);
+  addToBasket(dress: Dress) {
+    const defaultSize = dress.dressAvailability[0].size;
+    const price = dress.dressAvailability[0].price;
+    this.basketService.addToBasket(dress, defaultSize, price);
   }
 
   prevImage(dressIndex: number) {
