@@ -1,1 +1,103 @@
-<p>product-details works!</p>
+<div class="product-details">
+  <div class="container mt-5">
+    <!-- Loading State -->
+    <div *ngIf="loading" class="text-center">
+      <p>Loading...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="!loading && !dress" class="text-center">
+      <p>Product not found</p>
+    </div>
+
+    <!-- Product Details -->
+    <div *ngIf="!loading && dress" class="row">
+      <!-- Image Gallery Section -->
+      <div class="col-md-6">
+        <!-- Main Image -->
+        <div class="main-image mb-3 position-relative">
+          <img
+            *ngIf="dress.imageUrls.length > 0"
+            [src]="'http://localhost:8080' + dress.imageUrls[selectedImageIndex]"
+            [alt]="dress.name"
+            class="img-fluid rounded shadow"
+          />
+          
+          <button 
+            class="btn btn-dark position-absolute start-0 top-50 translate-middle-y ms-2"
+            (click)="prevImage(selectedImageIndex)"
+            *ngIf="dress.imageUrls.length > 1">
+            &#10094;
+          </button>
+
+          <button 
+            class="btn btn-dark position-absolute end-0 top-50 translate-middle-y me-2"
+            (click)="nextImage(selectedImageIndex)"
+            *ngIf="dress.imageUrls.length > 1">
+            &#10095;
+          </button>
+        </div>
+        <!-- Thumbnail Images -->
+        <div class="thumbnail-gallery d-flex gap-2">
+          <div
+            *ngFor="let image of dress.imageUrls; let i = index"
+            class="thumbnail"
+            [class.active]="i === selectedImageIndex"
+            (click)="selectImage(i)"
+          >
+            <img
+              [src]="'http://localhost:8080' + image"
+              [alt]="dress.name + ' thumbnail'"
+              class="img-fluid rounded"
+              style="width: 80px; cursor: pointer;"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Details Section -->
+      <div class="col-md-6">
+        <h2 class="fw-bold">{{dress.name}}</h2>
+        <p class="text-muted">Product Code: {{dress.productCode}}</p>
+        <p>Color: {{dress.color}}</p>
+
+        <!-- Sizes and Prices -->
+        <div class="mt-4">
+          <h4>Available Sizes:</h4>
+          <div class="btn-group" role="group">
+            <button
+              *ngFor="let size of getAvailableSizes()"
+              type="button"
+              class="btn"
+              [class.btn-primary]="selectedSize === size"
+              [class.btn-outline-primary]="selectedSize !== size"
+              (click)="selectSize(size)"
+            >
+              {{size}}
+            </button>
+          </div>
+        </div>
+
+        <!-- Price -->
+        <div class="mt-4">
+          <h4>Price:</h4>
+          <p class="fs-4 text-success fw-bold" *ngIf="selectedSize">
+            {{getPriceForSize(selectedSize) | currency:'PLN':'symbol':'1.2-2'}}
+          </p>
+          <p *ngIf="!selectedSize" class="text-muted">
+            Please select a size to see the price
+          </p>
+        </div>
+
+        <!-- Add to Cart Button -->
+        <button
+          class="btn btn-primary mt-4 w-100"
+          (click)="addToBasket()"
+          [disabled]="!selectedSize"
+        >
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

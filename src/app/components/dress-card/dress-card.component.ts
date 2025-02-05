@@ -49,7 +49,6 @@ export class DressCardComponent {
   }
 
   getColorHex(color: COLOR): string {
-    console.log(color);
     const colorMap: { [key in COLOR]: string } = {
       [COLOR.RED]: 'red', // Bootstrap danger color
       [COLOR.BLUE]: 'blue', // Bootstrap primary color
@@ -70,7 +69,8 @@ export class DressCardComponent {
   }
   navigateToProductDetails(dress: Dress) {
     this.router.navigate([
-      '/dress',
+      '/',
+      dress.name,
       dress.dressAvailability[0].dressAvailabilityId,
     ]); // by default navigate to the first dress
   }
