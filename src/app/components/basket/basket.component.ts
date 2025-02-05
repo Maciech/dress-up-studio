@@ -1,28 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { BasketService } from '../../services/basket.service';
-import { Dress } from '../../models/dress.model';
-import { CommonModule, NgFor } from '@angular/common';
+import { BasketItem } from '../../models/basket-item.model';
 
 @Component({
   selector: 'app-basket',
   standalone: true,
-  imports: [CommonModule, NgFor],
+  imports: [CommonModule],
   templateUrl: './basket.component.html',
-  styleUrl: './basket.component.css',
+  styleUrls: ['./basket.component.css'],
 })
-export class BasketComponent {
-  basketItems: Dress[] = [];
-  constructor(private basketService: BasketService) {
-    this.basketService.items$.subscribe((items: Dress[]) => {
+export class BasketComponent implements OnInit {
+  basketItems: BasketItem[] = [];
+  totalPrice = 0;
+
+  constructor(private basketService: BasketService) {}
+
+  ngOnInit(): void {
+    this.basketService.getBasketItems().subscribe((items) => {
       this.basketItems = items;
+    });
+
+    this.basketService.getTotalPrice().subscribe((total) => {
+      this.totalPrice = total;
     });
   }
 
-  getTotal(): any {
-    console.log('');
+  removeItem(itemId: number): void {
+    this.basketService.removeFromBasket(itemId);
   }
 
-  removeItem(item: Dress) {
-    this.basketService.removeItem(item);
+  updateQuantity(itemId: number, quantity: number): void {
+    if (quantity < 1) return;
+    this.basketService.updateQuantity(itemId, quantity);
   }
 }

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { Dress } from '../../models/dress.model';
 import { CommonModule } from '@angular/common';
 import { DressAvailability } from '../../models/availability.model';
+import { BasketService } from '../../services/basket.service';
 
 @Component({
   selector: 'app-product-details',
@@ -19,7 +20,12 @@ export class ProductDetailsComponent implements OnInit {
   selectedImageIndex = 0;
   selectedSize?: string;
 
-  constructor(private apiService: ApiService, private route: ActivatedRoute) {}
+  constructor(
+    private apiService: ApiService,
+    private basketService: BasketService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.productId = +(this.route.snapshot.paramMap.get('id') ?? 0);
@@ -73,7 +79,9 @@ export class ProductDetailsComponent implements OnInit {
       alert('Please select a size first');
       return;
     }
-    // Implement your add to basket logic here
+
+    const price = this.getPriceForSize(this.selectedSize);
+    this.basketService.addToBasket(this.dress, this.selectedSize, price);
   }
 
   prevImage(index: number): void {
